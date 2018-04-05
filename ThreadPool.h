@@ -41,6 +41,13 @@ namespace ThreadPool {
             TaskManager(std::unique_ptr<CallableBase<ReturnType>> task)
                     : _task(std::move(task)) {}
 
+            ReturnType returnValue() {
+                this->waitForCompletion();
+
+                // No value if void
+                return ReturnType(_res);
+            }
+
             ReturnType returnValue(std::chrono::milliseconds timeout) {
                 this->waitForCompletion(timeout);
 
